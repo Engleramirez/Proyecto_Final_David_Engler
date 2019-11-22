@@ -11,23 +11,35 @@ empresa prestadora servicios. Cada cuenca tiene una localización y pertenece a 
 físicas, químicas y microbiológicas, a su vez se analizan las enfermedades en 3 categorías: transportadas por el agua, las basadas en el 
 agua y diseminadas por insectos así:
 
+
 Las transportadas por el agua son:
 
 Cólera
+
 Fiebre tifoidea
+
 Hepatitis A
+
 Diarrea
+
 Disentería
+
 
 Las basadas en el agua son:
 
 Infeccion por gusano parásito
+
 Esquistosomiasis
+
 Dracunculiasis
+
 
 Y las diseminadas por insectos:
 
 Paludismo
+
 Fiebre amarilla
+
 Dengue
+
 Oncocercosis

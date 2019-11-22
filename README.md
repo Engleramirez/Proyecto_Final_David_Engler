@@ -12,7 +12,7 @@ físicas, químicas y microbiológicas, a su vez se analizan las enfermedades en
 agua y diseminadas por insectos así:
 
 
-Las transportadas por el agua son:
+(Las transportadas por el agua son:)
 
 Cólera
 
@@ -25,7 +25,7 @@ Diarrea
 Disentería
 
 
-Las basadas en el agua son:
+(Las basadas en el agua son:)
 
 Infeccion por gusano parásito
 
@@ -34,7 +34,7 @@ Esquistosomiasis
 Dracunculiasis
 
 
-Y las diseminadas por insectos:
+(Las diseminadas por insectos:)
 
 Paludismo
 

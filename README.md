@@ -1,5 +1,5 @@
 # Proyecto_Final_David_Engler
-Proyecto Final  Se observa, que existe una problemática en la salud humana debido a las deficientes condiciones en las 
+Se observa, que existe una problemática en la salud humana debido a las deficientes condiciones en las 
 cuencas que abastecen los suministros de agua para consumo humano.  Es competencia del Ministerio de Ambiente definir las condiciones,
 recursos y obligaciones mínimas para cumplir con una buena calidad de agua para consumo humano. Es función de los municipios y 
 distritos adecuar los sistemas de tratamiento de agua para consumo humano. Los municipios son clasificados en categorías. 
@@ -11,18 +11,15 @@ empresa prestadora servicios. Cada cuenca tiene una localización y pertenece a 
 físicas, químicas y microbiológicas, a su vez se analizan las enfermedades en 3 categorías: transportadas por el agua, las basadas en el 
 agua y diseminadas por insectos:   
 Las transportadas por el agua son: 
-
 Cólera
 Fiebre tifoidea
 Hepatitis A 
 Diarrea 
 Disentería 
-
 Las basadas en el agua son: 
 Infeccion por gusano parásito 
 Esquistosomiasis
 Dracunculiasis  
-
 Y las diseminadas por insectos: 
 Paludismo 
 Fiebre amarilla

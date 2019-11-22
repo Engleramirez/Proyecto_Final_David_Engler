@@ -13,7 +13,6 @@ agua y diseminadas por insectos así:
 
 
 Las transportadas por el agua son:
-<p>
 Cólera
 
 Fiebre tifoidea

@@ -9,19 +9,22 @@ bimestral, trimestral, semestral y anual. Cada municipio cuenta con un punto de 
 cuenca hidrográfica, además cada bocatoma pertenece a una planta de suministro de agua. Cada planta de suministro es administrada por una
 empresa prestadora servicios. Cada cuenca tiene una localización y pertenece a un municipio. A cada cuenca se analizan características 
 físicas, químicas y microbiológicas, a su vez se analizan las enfermedades en 3 categorías: transportadas por el agua, las basadas en el 
-agua y diseminadas por insectos:   
-Las transportadas por el agua son: 
+agua y diseminadas por insectos así:
+
+Las transportadas por el agua son:
 Cólera
 Fiebre tifoidea
-Hepatitis A 
-Diarrea 
-Disentería 
-Las basadas en el agua son: 
-Infeccion por gusano parásito 
+Hepatitis A
+Diarrea
+Disentería
+
+Las basadas en el agua son:
+Infeccion por gusano parásito
 Esquistosomiasis
-Dracunculiasis  
-Y las diseminadas por insectos: 
-Paludismo 
+Dracunculiasis
+
+Y las diseminadas por insectos:
+Paludismo
 Fiebre amarilla
 Dengue
 Oncocercosis

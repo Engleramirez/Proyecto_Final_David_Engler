@@ -12,34 +12,34 @@ físicas, químicas y microbiológicas, a su vez se analizan las enfermedades en
 agua y diseminadas por insectos así:
 
 
-(Las transportadas por el agua son:)
+(Las transportadas por el agua son):
 
-Cólera
+-Cólera
 
-Fiebre tifoidea
+-Fiebre tifoidea
 
-Hepatitis A
+-Hepatitis A
 
-Diarrea
+-Diarrea
 
-Disentería
-
-
-(Las basadas en el agua son:)
-
-Infeccion por gusano parásito
-
-Esquistosomiasis
-
-Dracunculiasis
+-Disentería
 
 
-(Las diseminadas por insectos:)
+(Las basadas en el agua son):
 
-Paludismo
+-Infeccion por gusano parásito
 
-Fiebre amarilla
+-Esquistosomiasis
 
-Dengue
+-Dracunculiasis
 
-Oncocercosis
+
+(Las diseminadas por insectos):
+
+-Paludismo
+
+-Fiebre amarilla
+
+-Dengue
+
+-Oncocercosis

@@ -1,1 +1,241 @@
 #create by David Garavito and Engler Ramirez
+-- Made by David and Engler
+-- Este es un código que tiene como principal objetivo desarrollar el proyecto propuesto. Además tener en cuenta que ésta es una versión 1 en donde no
+-- existen registros en la BD.
+-- This is a code whose main objective is to develop the proposed project. Furthermore keep in your mind this is a version 1 where not 
+-- exists registers in the DB.
+
+-- -----------------------------------------------------
+-- Schema Proyecto
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `Proyecto` DEFAULT CHARACTER SET utf8 ;
+USE `Proyecto` ;
+
+-- -----------------------------------------------------
+-- Table `Clasificacion`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Clasificacion` (
+  `ID_Clasificacion` INT NOT NULL,
+  `Categoria_Cla` VARCHAR(50) NULL,
+  PRIMARY KEY (`ID_Clasificacion`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Cargo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Cargo` (
+  `ID_Cargo` INT NOT NULL,
+  `Cargo_Alcal_Gober_Cargo` VARCHAR(50) NULL,
+  PRIMARY KEY (`ID_Cargo`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Alcalde_Gobernador`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Alcalde_Gobernador` (
+  `IDAlcalde_Gobernador` INT NOT NULL,
+  `Nombre_Alcal_Gober` VARCHAR(50) NULL,
+  `Cargo_ID_Cargo` INT NOT NULL,
+  PRIMARY KEY (`IDAlcalde_Gobernador`, `Cargo_ID_Cargo`),
+  INDEX `fk_Alcalde_Gobernador_Cargo1_idx` (`Cargo_ID_Cargo` ASC),
+  CONSTRAINT `fk_Alcalde_Gobernador_Cargo1`
+    FOREIGN KEY (`Cargo_ID_Cargo`)
+    REFERENCES `Cargo` (`ID_Cargo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Municipios_Distrito`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Municipios_Distrito` (
+  `ID_Municipios` INT NOT NULL,
+  `Nombre_Mun` VARCHAR(45) NULL,
+  `Clasificacion_ID_Clasificacion` INT NOT NULL,
+  `Alcalde_Gobernador_IDAlcalde_Gobernador` INT NOT NULL,
+  PRIMARY KEY (`ID_Municipios`, `Clasificacion_ID_Clasificacion`, `Alcalde_Gobernador_IDAlcalde_Gobernador`),
+  INDEX `fk_Municipios_Distrito_Clasificacion_idx` (`Clasificacion_ID_Clasificacion` ASC),
+  INDEX `fk_Municipios_Distrito_Alcalde_Gobernador1_idx` (`Alcalde_Gobernador_IDAlcalde_Gobernador` ASC),
+  CONSTRAINT `fk_Municipios_Distrito_Clasificacion`
+    FOREIGN KEY (`Clasificacion_ID_Clasificacion`)
+    REFERENCES `Clasificacion` (`ID_Clasificacion`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Municipios_Distrito_Alcalde_Gobernador1`
+    FOREIGN KEY (`Alcalde_Gobernador_IDAlcalde_Gobernador`)
+    REFERENCES `Alcalde_Gobernador` (`IDAlcalde_Gobernador`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Informe`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Informe` (
+  `ID_Informe` INT NOT NULL,
+  `Nombre_Informe` VARCHAR(50) NULL,
+  `Fecha_Presentacion` DATE NULL,
+  `Periodicidad` VARCHAR(50) NULL,
+  `Alcalde_Gobernador_IDAlcalde_Gobernador` INT NOT NULL,
+  `Alcalde_Gobernador_Cargo_ID_Cargo` INT NOT NULL,
+  PRIMARY KEY (`ID_Informe`, `Alcalde_Gobernador_IDAlcalde_Gobernador`, `Alcalde_Gobernador_Cargo_ID_Cargo`),
+  INDEX `fk_Informe_Alcalde_Gobernador1_idx` (`Alcalde_Gobernador_IDAlcalde_Gobernador` ASC, `Alcalde_Gobernador_Cargo_ID_Cargo` ASC),
+  CONSTRAINT `fk_Informe_Alcalde_Gobernador1`
+    FOREIGN KEY (`Alcalde_Gobernador_IDAlcalde_Gobernador` , `Alcalde_Gobernador_Cargo_ID_Cargo`)
+    REFERENCES `Alcalde_Gobernador` (`IDAlcalde_Gobernador` , `Cargo_ID_Cargo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Empresa_prestadora_ser`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Empresa_prestadora_ser` (
+  `ID_Empresa_prestadora_ser` INT NOT NULL,
+  `Nombre_Empresa_prestadora_ser` VARCHAR(50) NULL,
+  PRIMARY KEY (`ID_Empresa_prestadora_ser`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Planta_suministro`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Planta_suministro` (
+  `ID_Planta_suministro` INT NOT NULL,
+  `Nombre_Planta_suministro` VARCHAR(50) NULL,
+  `Empresa_prestadora_ser_ID_Empresa_prestadora_ser` INT NOT NULL,
+  PRIMARY KEY (`ID_Planta_suministro`, `Empresa_prestadora_ser_ID_Empresa_prestadora_ser`),
+  INDEX `fk_Planta_suministro_Empresa_prestadora_ser1_idx` (`Empresa_prestadora_ser_ID_Empresa_prestadora_ser` ASC),
+  CONSTRAINT `fk_Planta_suministro_Empresa_prestadora_ser1`
+    FOREIGN KEY (`Empresa_prestadora_ser_ID_Empresa_prestadora_ser`)
+    REFERENCES `Empresa_prestadora_ser` (`ID_Empresa_prestadora_ser`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Boca_toma`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Boca_toma` (
+  `ID_Boca_toma` INT NOT NULL,
+  `Nombre_Boca_toma` VARCHAR(50) NULL,
+  `Cuenca_hidrografica` VARCHAR(50) NULL,
+  `Municipios_Distrito_ID_Municipios` INT NOT NULL,
+  `Municipios_Distrito_Clasificacion_ID_Clasificacion` INT NOT NULL,
+  `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador` INT NOT NULL,
+  `Planta_suministro_ID_Planta_suministro` INT NOT NULL,
+  PRIMARY KEY (`ID_Boca_toma`, `Municipios_Distrito_ID_Municipios`, `Municipios_Distrito_Clasificacion_ID_Clasificacion`, `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador`, `Planta_suministro_ID_Planta_suministro`),
+  INDEX `fk_Boca_toma_Municipios_Distrito1_idx` (`Municipios_Distrito_ID_Municipios` ASC, `Municipios_Distrito_Clasificacion_ID_Clasificacion` ASC, `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador` ASC),
+  INDEX `fk_Boca_toma_Planta_suministro1_idx` (`Planta_suministro_ID_Planta_suministro` ASC),
+  CONSTRAINT `fk_Boca_toma_Municipios_Distrito1`
+    FOREIGN KEY (`Municipios_Distrito_ID_Municipios` , `Municipios_Distrito_Clasificacion_ID_Clasificacion` , `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador`)
+    REFERENCES `Municipios_Distrito` (`ID_Municipios` , `Clasificacion_ID_Clasificacion` , `Alcalde_Gobernador_IDAlcalde_Gobernador`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Boca_toma_Planta_suministro1`
+    FOREIGN KEY (`Planta_suministro_ID_Planta_suministro`)
+    REFERENCES `Planta_suministro` (`ID_Planta_suministro`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Cuencas_Hidro`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Cuencas_Hidro` (
+  `Nombre_Cuenca` VARCHAR(50) NOT NULL,
+  `Ubicacion` VARCHAR(50) NULL,
+  `Caracterisiticas_Analizadas` VARCHAR(50) NULL,
+  PRIMARY KEY (`Nombre_Cuenca`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Tipo_Analisis`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Tipo_Analisis` (
+  `ID_Tipo_Analisis` INT NOT NULL,
+  `Nombre_Tipo_Analisis` VARCHAR(50) NULL,
+  PRIMARY KEY (`ID_Tipo_Analisis`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Enfermedades`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Enfermedades` (
+  `ID_Enfermedades` INT NOT NULL,
+  `Nombre_Enfermedad` VARCHAR(50) NULL,
+  `Tipo_Analisis_ID_Tipo_Analisis` INT NOT NULL,
+  PRIMARY KEY (`ID_Enfermedades`, `Tipo_Analisis_ID_Tipo_Analisis`),
+  INDEX `fk_Enfermedades_Tipo_Analisis1_idx` (`Tipo_Analisis_ID_Tipo_Analisis` ASC),
+  CONSTRAINT `fk_Enfermedades_Tipo_Analisis1`
+    FOREIGN KEY (`Tipo_Analisis_ID_Tipo_Analisis`)
+    REFERENCES `Tipo_Analisis` (`ID_Tipo_Analisis`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Cuencas_Hidro_has_Enfermedades`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Cuencas_Hidro_has_Enfermedades` (
+  `Cuencas_Hidro_Nombre_Cuenca` VARCHAR(50) NOT NULL,
+  `Enfermedades_ID_Enfermedades` INT NOT NULL,
+  `Enfermedades_Tipo_Analisis_ID_Tipo_Analisis` INT NOT NULL,
+  PRIMARY KEY (`Cuencas_Hidro_Nombre_Cuenca`, `Enfermedades_ID_Enfermedades`, `Enfermedades_Tipo_Analisis_ID_Tipo_Analisis`),
+  INDEX `fk_Cuencas_Hidro_has_Enfermedades_Enfermedades1_idx` (`Enfermedades_ID_Enfermedades` ASC, `Enfermedades_Tipo_Analisis_ID_Tipo_Analisis` ASC),
+  INDEX `fk_Cuencas_Hidro_has_Enfermedades_Cuencas_Hidro1_idx` (`Cuencas_Hidro_Nombre_Cuenca` ASC),
+  CONSTRAINT `fk_Cuencas_Hidro_has_Enfermedades_Cuencas_Hidro1`
+    FOREIGN KEY (`Cuencas_Hidro_Nombre_Cuenca`)
+    REFERENCES `Cuencas_Hidro` (`Nombre_Cuenca`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Cuencas_Hidro_has_Enfermedades_Enfermedades1`
+    FOREIGN KEY (`Enfermedades_ID_Enfermedades` , `Enfermedades_Tipo_Analisis_ID_Tipo_Analisis`)
+    REFERENCES `Enfermedades` (`ID_Enfermedades` , `Tipo_Analisis_ID_Tipo_Analisis`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Municipios_Distrito_has_Cuencas_Hidro`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Municipios_Distrito_has_Cuencas_Hidro` (
+  `Municipios_Distrito_ID_Municipios` INT NOT NULL,
+  `Municipios_Distrito_Clasificacion_ID_Clasificacion` INT NOT NULL,
+  `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador` INT NOT NULL,
+  `Cuencas_Hidro_Nombre_Cuenca` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`Municipios_Distrito_ID_Municipios`, `Municipios_Distrito_Clasificacion_ID_Clasificacion`, `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador`, `Cuencas_Hidro_Nombre_Cuenca`),
+  INDEX `fk_Municipios_Distrito_has_Cuencas_Hidro_Cuencas_Hidro1_idx` (`Cuencas_Hidro_Nombre_Cuenca` ASC),
+  INDEX `fk_Municipios_Distrito_has_Cuencas_Hidro_Municipios_Distrit_idx` (`Municipios_Distrito_ID_Municipios` ASC, `Municipios_Distrito_Clasificacion_ID_Clasificacion` ASC, `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador` ASC),
+  CONSTRAINT `fk_Municipios_Distrito_has_Cuencas_Hidro_Municipios_Distrito1`
+    FOREIGN KEY (`Municipios_Distrito_ID_Municipios` , `Municipios_Distrito_Clasificacion_ID_Clasificacion` , `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador`)
+    REFERENCES `Municipios_Distrito` (`ID_Municipios` , `Clasificacion_ID_Clasificacion` , `Alcalde_Gobernador_IDAlcalde_Gobernador`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Municipios_Distrito_has_Cuencas_Hidro_Cuencas_Hidro1`
+    FOREIGN KEY (`Cuencas_Hidro_Nombre_Cuenca`)
+    REFERENCES `Cuencas_Hidro` (`Nombre_Cuenca`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Cuencas_Hidro_has_Enfermedades`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Cuencas_Hidro_has_Enfermedades` (
+  `Cuencas_Hidro_Nombre_Cuenca` VARCHAR(50) NOT NULL,
+  `Enfermedades_ID_Enfermedades` INT NOT NULL,
+  `Enfermedades_Tipo_Analisis_ID_Tipo_Analisis` INT NOT NULL,
+  PRIMARY KEY (`Cuencas_Hidro_Nombre_Cuenca`, `Enfermedades_ID_Enfermedades`, `Enfermedades_Tipo_Analisis_ID_Tipo_Analisis`),
+  INDEX `fk_Cuencas_Hidro_has_Enfermedades_Enfermedades1_idx` (`Enfermedades_ID_Enfermedades` ASC, `Enfermedades_Tipo_Analisis_ID_Tipo_Analisis` ASC),
+  INDEX `fk_Cuencas_Hidro_has_Enfermedades_Cuencas_Hidro1_idx` (`Cuencas_Hidro_Nombre_Cuenca` ASC),
+  CONSTRAINT `fk_Cuencas_Hidro_has_Enfermedades_Cuencas_Hidro1`
+    FOREIGN KEY (`Cuencas_Hidro_Nombre_Cuenca`)
+    REFERENCES `Cuencas_Hidro` (`Nombre_Cuenca`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Cuencas_Hidro_has_Enfermedades_Enfermedades1`
+    FOREIGN KEY (`Enfermedades_ID_Enfermedades` , `Enfermedades_Tipo_Analisis_ID_Tipo_Analisis`)
+    REFERENCES `Enfermedades` (`ID_Enfermedades` , `Tipo_Analisis_ID_Tipo_Analisis`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;

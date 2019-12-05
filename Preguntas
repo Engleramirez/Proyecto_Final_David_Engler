@@ -1,0 +1,26 @@
+Consultas a realizar
+
+Usando como referente la base de datos adjunta respecto a plantas de suministro de agua que poseen su propia bocatoma, 
+adscritas a un municipio, revistados mediante informes con una determinada periodicidad, los municipios posee una respectiva 
+categoria; a las cuencas hidrograficas se les analizan determinadas caracteristicas, así como factores que proliferan
+determinadas enfermedades.
+
+Visualizar las enfermedades generados, segun el tipo de analisis realizado.
+
+Generar un listado de municipios que correspondan a Categoria Especial, y que planta de tratamiento de aguas posee.
+
+Visualizar el nombre de la cuenca, nombre bocatoma y ubicación de la cuanca hidrografica de municipios que fueron revistados con informes bimestrales.
+
+Visualizar cuantos informes bimestrales fueron realizados en el año 2019
+
+Visualizar los informes generados en los meses de enero que tuvieron una periodicidad anual.
+
+Determinar que empresas prestadoras de servicios administran los acueductos en la ciudad de Armenia y de Florencia.
+
+Visualizar que enfermedades afectan principalmente a las cuencas de los rios amazonas y molinos.
+
+Determinar cuantas plantas de tratamiento de aguas tiene la ciudad de Mocoa.
+
+Organizar en orden alfabetico ascendente las ciudades con su respectiva(s) plantas de tratamiento y sus cuencas hidrograficas.
+
+

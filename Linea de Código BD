@@ -5,237 +5,331 @@
 -- This is a code whose main objective is to develop the proposed project. Furthermore keep in your mind this is a version 1 where not 
 -- exists registers in the DB.
 
--- -----------------------------------------------------
--- Schema Proyecto
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `Proyecto` DEFAULT CHARACTER SET utf8 ;
-USE `Proyecto` ;
+CREATE TABLE IF NOT EXISTS `alcalde_gobernador` (
+  `IDAlcalde_Gobernador` int(11) NOT NULL,
+  `Nombre_Alcal_Gober` varchar(50) DEFAULT NULL,
+  `Cargo_ID_Cargo` int(11) NOT NULL,
+  PRIMARY KEY (`IDAlcalde_Gobernador`,`Cargo_ID_Cargo`),
+  KEY `fk_Alcalde_Gobernador_Cargo1_idx` (`Cargo_ID_Cargo`),
+  CONSTRAINT `fk_Alcalde_Gobernador_Cargo1` FOREIGN KEY (`Cargo_ID_Cargo`) REFERENCES `cargo` (`ID_Cargo`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -----------------------------------------------------
--- Table `Clasificacion`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Clasificacion` (
-  `ID_Clasificacion` INT NOT NULL,
-  `Categoria_Cla` VARCHAR(50) NULL,
-  PRIMARY KEY (`ID_Clasificacion`))
-ENGINE = InnoDB;
+-- Volcando datos para la tabla proyecto.alcalde_gobernador: ~10 rows (aproximadamente)
+DELETE FROM `alcalde_gobernador`;
+/*!40000 ALTER TABLE `alcalde_gobernador` DISABLE KEYS */;
+INSERT INTO `alcalde_gobernador` (`IDAlcalde_Gobernador`, `Nombre_Alcal_Gober`, `Cargo_ID_Cargo`) VALUES
+	(12345670, 'Andres Arias', 1),
+	(12345671, 'Bernardo Buritica', 1),
+	(12345672, 'Carmenza Collazos', 1),
+	(12345673, 'Diego Dimate', 1),
+	(12345674, 'Ernesto Espinoza', 1),
+	(12345675, 'Fernando Farias', 2),
+	(12345676, 'Gilma Garzon', 2),
+	(12345677, 'Hilda Hernandez', 2),
+	(12345678, 'Irma Inocencio', 2),
+	(12345679, 'Julian Jimenez', 2);
+/*!40000 ALTER TABLE `alcalde_gobernador` ENABLE KEYS */;
 
--- -----------------------------------------------------
--- Table `Cargo`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Cargo` (
-  `ID_Cargo` INT NOT NULL,
-  `Cargo_Alcal_Gober_Cargo` VARCHAR(50) NULL,
-  PRIMARY KEY (`ID_Cargo`))
-ENGINE = InnoDB;
+-- Volcando estructura para tabla proyecto.boca_toma
+CREATE TABLE IF NOT EXISTS `boca_toma` (
+  `ID_Boca_toma` int(11) NOT NULL,
+  `Nombre_Boca_toma` varchar(50) DEFAULT NULL,
+  `Municipios_Distrito_ID_Municipios` int(11) NOT NULL,
+  `Municipios_Distrito_Clasificacion_ID_Clasificacion` int(11) NOT NULL,
+  `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador` int(11) NOT NULL,
+  `Planta_suministro_ID_Planta_suministro` int(11) NOT NULL,
+  PRIMARY KEY (`ID_Boca_toma`,`Municipios_Distrito_ID_Municipios`,`Municipios_Distrito_Clasificacion_ID_Clasificacion`,`Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador`,`Planta_suministro_ID_Planta_suministro`),
+  KEY `fk_Boca_toma_Municipios_Distrito1_idx` (`Municipios_Distrito_ID_Municipios`,`Municipios_Distrito_Clasificacion_ID_Clasificacion`,`Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador`),
+  KEY `fk_Boca_toma_Planta_suministro1_idx` (`Planta_suministro_ID_Planta_suministro`),
+  CONSTRAINT `fk_Boca_toma_Municipios_Distrito1` FOREIGN KEY (`Municipios_Distrito_ID_Municipios`, `Municipios_Distrito_Clasificacion_ID_Clasificacion`, `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador`) REFERENCES `municipios_distrito` (`ID_Municipios`, `Clasificacion_ID_Clasificacion`, `Alcalde_Gobernador_IDAlcalde_Gobernador`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Boca_toma_Planta_suministro1` FOREIGN KEY (`Planta_suministro_ID_Planta_suministro`) REFERENCES `planta_suministro` (`ID_Planta_suministro`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -----------------------------------------------------
--- Table `Alcalde_Gobernador`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Alcalde_Gobernador` (
-  `IDAlcalde_Gobernador` INT NOT NULL,
-  `Nombre_Alcal_Gober` VARCHAR(50) NULL,
-  `Cargo_ID_Cargo` INT NOT NULL,
-  PRIMARY KEY (`IDAlcalde_Gobernador`, `Cargo_ID_Cargo`),
-  INDEX `fk_Alcalde_Gobernador_Cargo1_idx` (`Cargo_ID_Cargo` ASC),
-  CONSTRAINT `fk_Alcalde_Gobernador_Cargo1`
-    FOREIGN KEY (`Cargo_ID_Cargo`)
-    REFERENCES `Cargo` (`ID_Cargo`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- Volcando datos para la tabla proyecto.boca_toma: ~10 rows (aproximadamente)
+DELETE FROM `boca_toma`;
+/*!40000 ALTER TABLE `boca_toma` DISABLE KEYS */;
+INSERT INTO `boca_toma` (`ID_Boca_toma`, `Nombre_Boca_toma`, `Municipios_Distrito_ID_Municipios`, `Municipios_Distrito_Clasificacion_ID_Clasificacion`, `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador`, `Planta_suministro_ID_Planta_suministro`) VALUES
+	(8590, 'BCT-LM01', 1233, 1, 12345670, 98766),
+	(8591, 'BCT-ER02', 1234, 2, 12345671, 98767),
+	(8592, 'BCT-ES03', 1235, 3, 12345672, 98768),
+	(8593, 'BCT-PM04', 1236, 4, 12345673, 98769),
+	(8594, 'BCT-C05', 1237, 5, 12345674, 98770),
+	(8595, 'BCT-EP06', 1238, 6, 12345675, 98771),
+	(8596, 'BCT-LC07', 1239, 7, 12345676, 98772),
+	(8597, 'BCT-EL08', 1240, 1, 12345677, 98773),
+	(8598, 'BCT-LCB09', 1241, 2, 12345678, 98774),
+	(8599, 'BCT-TC10', 1242, 3, 12345679, 98775);
+/*!40000 ALTER TABLE `boca_toma` ENABLE KEYS */;
 
--- -----------------------------------------------------
--- Table `Municipios_Distrito`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Municipios_Distrito` (
-  `ID_Municipios` INT NOT NULL,
-  `Nombre_Mun` VARCHAR(45) NULL,
-  `Clasificacion_ID_Clasificacion` INT NOT NULL,
-  `Alcalde_Gobernador_IDAlcalde_Gobernador` INT NOT NULL,
-  PRIMARY KEY (`ID_Municipios`, `Clasificacion_ID_Clasificacion`, `Alcalde_Gobernador_IDAlcalde_Gobernador`),
-  INDEX `fk_Municipios_Distrito_Clasificacion_idx` (`Clasificacion_ID_Clasificacion` ASC),
-  INDEX `fk_Municipios_Distrito_Alcalde_Gobernador1_idx` (`Alcalde_Gobernador_IDAlcalde_Gobernador` ASC),
-  CONSTRAINT `fk_Municipios_Distrito_Clasificacion`
-    FOREIGN KEY (`Clasificacion_ID_Clasificacion`)
-    REFERENCES `Clasificacion` (`ID_Clasificacion`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Municipios_Distrito_Alcalde_Gobernador1`
-    FOREIGN KEY (`Alcalde_Gobernador_IDAlcalde_Gobernador`)
-    REFERENCES `Alcalde_Gobernador` (`IDAlcalde_Gobernador`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- Volcando estructura para tabla proyecto.cargo
+CREATE TABLE IF NOT EXISTS `cargo` (
+  `ID_Cargo` int(11) NOT NULL,
+  `Cargo_Alcal_Gober_Cargo` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_Cargo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -----------------------------------------------------
--- Table `Informe`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Informe` (
-  `ID_Informe` INT NOT NULL,
-  `Nombre_Informe` VARCHAR(50) NULL,
-  `Fecha_Presentacion` DATE NULL,
-  `Periodicidad` VARCHAR(50) NULL,
-  `Alcalde_Gobernador_IDAlcalde_Gobernador` INT NOT NULL,
-  `Alcalde_Gobernador_Cargo_ID_Cargo` INT NOT NULL,
-  PRIMARY KEY (`ID_Informe`, `Alcalde_Gobernador_IDAlcalde_Gobernador`, `Alcalde_Gobernador_Cargo_ID_Cargo`),
-  INDEX `fk_Informe_Alcalde_Gobernador1_idx` (`Alcalde_Gobernador_IDAlcalde_Gobernador` ASC, `Alcalde_Gobernador_Cargo_ID_Cargo` ASC),
-  CONSTRAINT `fk_Informe_Alcalde_Gobernador1`
-    FOREIGN KEY (`Alcalde_Gobernador_IDAlcalde_Gobernador` , `Alcalde_Gobernador_Cargo_ID_Cargo`)
-    REFERENCES `Alcalde_Gobernador` (`IDAlcalde_Gobernador` , `Cargo_ID_Cargo`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- Volcando datos para la tabla proyecto.cargo: ~2 rows (aproximadamente)
+DELETE FROM `cargo`;
+/*!40000 ALTER TABLE `cargo` DISABLE KEYS */;
+INSERT INTO `cargo` (`ID_Cargo`, `Cargo_Alcal_Gober_Cargo`) VALUES
+	(1, 'Gobernador'),
+	(2, 'Alcalde');
+/*!40000 ALTER TABLE `cargo` ENABLE KEYS */;
 
--- -----------------------------------------------------
--- Table `Empresa_prestadora_ser`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Empresa_prestadora_ser` (
-  `ID_Empresa_prestadora_ser` INT NOT NULL,
-  `Nombre_Empresa_prestadora_ser` VARCHAR(50) NULL,
-  PRIMARY KEY (`ID_Empresa_prestadora_ser`))
-ENGINE = InnoDB;
+-- Volcando estructura para tabla proyecto.clasificacion
+CREATE TABLE IF NOT EXISTS `clasificacion` (
+  `ID_Clasificacion` int(11) NOT NULL DEFAULT 0,
+  `Categoria_Cla` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_Clasificacion`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -----------------------------------------------------
--- Table `Planta_suministro`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Planta_suministro` (
-  `ID_Planta_suministro` INT NOT NULL,
-  `Nombre_Planta_suministro` VARCHAR(50) NULL,
-  `Empresa_prestadora_ser_ID_Empresa_prestadora_ser` INT NOT NULL,
-  PRIMARY KEY (`ID_Planta_suministro`, `Empresa_prestadora_ser_ID_Empresa_prestadora_ser`),
-  INDEX `fk_Planta_suministro_Empresa_prestadora_ser1_idx` (`Empresa_prestadora_ser_ID_Empresa_prestadora_ser` ASC),
-  CONSTRAINT `fk_Planta_suministro_Empresa_prestadora_ser1`
-    FOREIGN KEY (`Empresa_prestadora_ser_ID_Empresa_prestadora_ser`)
-    REFERENCES `Empresa_prestadora_ser` (`ID_Empresa_prestadora_ser`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- Volcando datos para la tabla proyecto.clasificacion: ~7 rows (aproximadamente)
+DELETE FROM `clasificacion`;
+/*!40000 ALTER TABLE `clasificacion` DISABLE KEYS */;
+INSERT INTO `clasificacion` (`ID_Clasificacion`, `Categoria_Cla`) VALUES
+	(1, 'Categoria 1'),
+	(2, 'Categoria 2'),
+	(3, 'Categoria 3'),
+	(4, 'Categoria 4'),
+	(5, 'Categoria 5'),
+	(6, 'Categoria 6'),
+	(7, 'Categoria Especial');
+/*!40000 ALTER TABLE `clasificacion` ENABLE KEYS */;
 
--- -----------------------------------------------------
--- Table `Boca_toma`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Boca_toma` (
-  `ID_Boca_toma` INT NOT NULL,
-  `Nombre_Boca_toma` VARCHAR(50) NULL,
-  `Cuenca_hidrografica` VARCHAR(50) NULL,
-  `Municipios_Distrito_ID_Municipios` INT NOT NULL,
-  `Municipios_Distrito_Clasificacion_ID_Clasificacion` INT NOT NULL,
-  `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador` INT NOT NULL,
-  `Planta_suministro_ID_Planta_suministro` INT NOT NULL,
-  PRIMARY KEY (`ID_Boca_toma`, `Municipios_Distrito_ID_Municipios`, `Municipios_Distrito_Clasificacion_ID_Clasificacion`, `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador`, `Planta_suministro_ID_Planta_suministro`),
-  INDEX `fk_Boca_toma_Municipios_Distrito1_idx` (`Municipios_Distrito_ID_Municipios` ASC, `Municipios_Distrito_Clasificacion_ID_Clasificacion` ASC, `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador` ASC),
-  INDEX `fk_Boca_toma_Planta_suministro1_idx` (`Planta_suministro_ID_Planta_suministro` ASC),
-  CONSTRAINT `fk_Boca_toma_Municipios_Distrito1`
-    FOREIGN KEY (`Municipios_Distrito_ID_Municipios` , `Municipios_Distrito_Clasificacion_ID_Clasificacion` , `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador`)
-    REFERENCES `Municipios_Distrito` (`ID_Municipios` , `Clasificacion_ID_Clasificacion` , `Alcalde_Gobernador_IDAlcalde_Gobernador`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Boca_toma_Planta_suministro1`
-    FOREIGN KEY (`Planta_suministro_ID_Planta_suministro`)
-    REFERENCES `Planta_suministro` (`ID_Planta_suministro`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- Volcando estructura para tabla proyecto.cuencas_hidro
+CREATE TABLE IF NOT EXISTS `cuencas_hidro` (
+  `Nombre_Cuenca` varchar(50) NOT NULL,
+  `Ubicacion` varchar(50) DEFAULT NULL,
+  `Caracterisiticas_Analizadas` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Nombre_Cuenca`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -----------------------------------------------------
--- Table `Cuencas_Hidro`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Cuencas_Hidro` (
-  `Nombre_Cuenca` VARCHAR(50) NOT NULL,
-  `Ubicacion` VARCHAR(50) NULL,
-  `Caracterisiticas_Analizadas` VARCHAR(50) NULL,
-  PRIMARY KEY (`Nombre_Cuenca`))
-ENGINE = InnoDB;
+-- Volcando datos para la tabla proyecto.cuencas_hidro: ~10 rows (aproximadamente)
+DELETE FROM `cuencas_hidro`;
+/*!40000 ALTER TABLE `cuencas_hidro` DISABLE KEYS */;
+INSERT INTO `cuencas_hidro` (`Nombre_Cuenca`, `Ubicacion`, `Caracterisiticas_Analizadas`) VALUES
+	('Quebrada El Dedo', NULL, 'Basadas en el agua'),
+	('Rio Amazonas', NULL, 'Basadas en el agua'),
+	('Rio Chinchina', NULL, 'Diseminadas por insectos'),
+	('Rio Las Ceibas', NULL, 'Diseminadas por insectos'),
+	('Rio Magdalena', NULL, 'Transportadas por el agua'),
+	('Rio Molino', NULL, 'Diseminadas por el agua'),
+	('Rio Mulato', NULL, 'Diseminadas por insectos'),
+	('Rio Pance', NULL, 'Basadas en el agua'),
+	('Rio Quindio', NULL, 'Transportadas por el agua'),
+	('Rio Salitre', NULL, 'Transportadas por el agua');
+/*!40000 ALTER TABLE `cuencas_hidro` ENABLE KEYS */;
 
--- -----------------------------------------------------
--- Table `Tipo_Analisis`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Tipo_Analisis` (
-  `ID_Tipo_Analisis` INT NOT NULL,
-  `Nombre_Tipo_Analisis` VARCHAR(50) NULL,
-  PRIMARY KEY (`ID_Tipo_Analisis`))
-ENGINE = InnoDB;
+-- Volcando estructura para tabla proyecto.cuencas_hidro_has_enfermedades
+CREATE TABLE IF NOT EXISTS `cuencas_hidro_has_enfermedades` (
+  `Cuencas_Hidro_Nombre_Cuenca` varchar(50) NOT NULL,
+  `Enfermedades_ID_Enfermedades` int(11) NOT NULL,
+  `Enfermedades_Tipo_Analisis_ID_Tipo_Analisis` int(11) NOT NULL,
+  PRIMARY KEY (`Cuencas_Hidro_Nombre_Cuenca`,`Enfermedades_ID_Enfermedades`,`Enfermedades_Tipo_Analisis_ID_Tipo_Analisis`),
+  KEY `fk_Cuencas_Hidro_has_Enfermedades_Enfermedades1_idx` (`Enfermedades_ID_Enfermedades`,`Enfermedades_Tipo_Analisis_ID_Tipo_Analisis`),
+  KEY `fk_Cuencas_Hidro_has_Enfermedades_Cuencas_Hidro1_idx` (`Cuencas_Hidro_Nombre_Cuenca`),
+  CONSTRAINT `fk_Cuencas_Hidro_has_Enfermedades_Cuencas_Hidro1` FOREIGN KEY (`Cuencas_Hidro_Nombre_Cuenca`) REFERENCES `cuencas_hidro` (`Nombre_Cuenca`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Cuencas_Hidro_has_Enfermedades_Enfermedades1` FOREIGN KEY (`Enfermedades_ID_Enfermedades`, `Enfermedades_Tipo_Analisis_ID_Tipo_Analisis`) REFERENCES `enfermedades` (`ID_Enfermedades`, `Tipo_Analisis_ID_Tipo_Analisis`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -----------------------------------------------------
--- Table `Enfermedades`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Enfermedades` (
-  `ID_Enfermedades` INT NOT NULL,
-  `Nombre_Enfermedad` VARCHAR(50) NULL,
-  `Tipo_Analisis_ID_Tipo_Analisis` INT NOT NULL,
-  PRIMARY KEY (`ID_Enfermedades`, `Tipo_Analisis_ID_Tipo_Analisis`),
-  INDEX `fk_Enfermedades_Tipo_Analisis1_idx` (`Tipo_Analisis_ID_Tipo_Analisis` ASC),
-  CONSTRAINT `fk_Enfermedades_Tipo_Analisis1`
-    FOREIGN KEY (`Tipo_Analisis_ID_Tipo_Analisis`)
-    REFERENCES `Tipo_Analisis` (`ID_Tipo_Analisis`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- Volcando datos para la tabla proyecto.cuencas_hidro_has_enfermedades: ~12 rows (aproximadamente)
+DELETE FROM `cuencas_hidro_has_enfermedades`;
+/*!40000 ALTER TABLE `cuencas_hidro_has_enfermedades` DISABLE KEYS */;
+INSERT INTO `cuencas_hidro_has_enfermedades` (`Cuencas_Hidro_Nombre_Cuenca`, `Enfermedades_ID_Enfermedades`, `Enfermedades_Tipo_Analisis_ID_Tipo_Analisis`) VALUES
+	('Quebrada El Dedo', 4015, 21),
+	('Rio Amazonas', 4016, 22),
+	('Rio Chinchina', 4017, 22),
+	('Rio Las Ceibas', 4019, 23),
+	('Rio Magdalena', 4012, 21),
+	('Rio Magdalena', 4022, 23),
+	('Rio Molino', 4020, 23),
+	('Rio Mulato', 4018, 22),
+	('Rio Pance', 4014, 21),
+	('Rio Quindio', 4011, 21),
+	('Rio Quindio', 4021, 23),
+	('Rio Salitre', 4013, 21);
+/*!40000 ALTER TABLE `cuencas_hidro_has_enfermedades` ENABLE KEYS */;
 
--- -----------------------------------------------------
--- Table `Cuencas_Hidro_has_Enfermedades`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Cuencas_Hidro_has_Enfermedades` (
-  `Cuencas_Hidro_Nombre_Cuenca` VARCHAR(50) NOT NULL,
-  `Enfermedades_ID_Enfermedades` INT NOT NULL,
-  `Enfermedades_Tipo_Analisis_ID_Tipo_Analisis` INT NOT NULL,
-  PRIMARY KEY (`Cuencas_Hidro_Nombre_Cuenca`, `Enfermedades_ID_Enfermedades`, `Enfermedades_Tipo_Analisis_ID_Tipo_Analisis`),
-  INDEX `fk_Cuencas_Hidro_has_Enfermedades_Enfermedades1_idx` (`Enfermedades_ID_Enfermedades` ASC, `Enfermedades_Tipo_Analisis_ID_Tipo_Analisis` ASC),
-  INDEX `fk_Cuencas_Hidro_has_Enfermedades_Cuencas_Hidro1_idx` (`Cuencas_Hidro_Nombre_Cuenca` ASC),
-  CONSTRAINT `fk_Cuencas_Hidro_has_Enfermedades_Cuencas_Hidro1`
-    FOREIGN KEY (`Cuencas_Hidro_Nombre_Cuenca`)
-    REFERENCES `Cuencas_Hidro` (`Nombre_Cuenca`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Cuencas_Hidro_has_Enfermedades_Enfermedades1`
-    FOREIGN KEY (`Enfermedades_ID_Enfermedades` , `Enfermedades_Tipo_Analisis_ID_Tipo_Analisis`)
-    REFERENCES `Enfermedades` (`ID_Enfermedades` , `Tipo_Analisis_ID_Tipo_Analisis`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- Volcando estructura para tabla proyecto.empresa_prestadora_ser
+CREATE TABLE IF NOT EXISTS `empresa_prestadora_ser` (
+  `ID_Empresa_prestadora_ser` int(11) NOT NULL,
+  `Nombre_Empresa_prestadora_ser` varchar(60) DEFAULT NULL,
+  PRIMARY KEY (`ID_Empresa_prestadora_ser`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -----------------------------------------------------
--- Table `Municipios_Distrito_has_Cuencas_Hidro`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Municipios_Distrito_has_Cuencas_Hidro` (
-  `Municipios_Distrito_ID_Municipios` INT NOT NULL,
-  `Municipios_Distrito_Clasificacion_ID_Clasificacion` INT NOT NULL,
-  `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador` INT NOT NULL,
-  `Cuencas_Hidro_Nombre_Cuenca` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`Municipios_Distrito_ID_Municipios`, `Municipios_Distrito_Clasificacion_ID_Clasificacion`, `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador`, `Cuencas_Hidro_Nombre_Cuenca`),
-  INDEX `fk_Municipios_Distrito_has_Cuencas_Hidro_Cuencas_Hidro1_idx` (`Cuencas_Hidro_Nombre_Cuenca` ASC),
-  INDEX `fk_Municipios_Distrito_has_Cuencas_Hidro_Municipios_Distrit_idx` (`Municipios_Distrito_ID_Municipios` ASC, `Municipios_Distrito_Clasificacion_ID_Clasificacion` ASC, `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador` ASC),
-  CONSTRAINT `fk_Municipios_Distrito_has_Cuencas_Hidro_Municipios_Distrito1`
-    FOREIGN KEY (`Municipios_Distrito_ID_Municipios` , `Municipios_Distrito_Clasificacion_ID_Clasificacion` , `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador`)
-    REFERENCES `Municipios_Distrito` (`ID_Municipios` , `Clasificacion_ID_Clasificacion` , `Alcalde_Gobernador_IDAlcalde_Gobernador`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Municipios_Distrito_has_Cuencas_Hidro_Cuencas_Hidro1`
-    FOREIGN KEY (`Cuencas_Hidro_Nombre_Cuenca`)
-    REFERENCES `Cuencas_Hidro` (`Nombre_Cuenca`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- Volcando datos para la tabla proyecto.empresa_prestadora_ser: ~10 rows (aproximadamente)
+DELETE FROM `empresa_prestadora_ser`;
+/*!40000 ALTER TABLE `empresa_prestadora_ser` DISABLE KEYS */;
+INSERT INTO `empresa_prestadora_ser` (`ID_Empresa_prestadora_ser`, `Nombre_Empresa_prestadora_ser`) VALUES
+	(1401, 'Empresa Publicas de Armenia S.A'),
+	(1402, 'Empresa Triple A Barranquilla S.A'),
+	(1403, 'Empresa de Acueducto y Alcantarillado de Bogota S.A'),
+	(1404, 'Empresa Municipales de Cali S.A'),
+	(1405, 'Empresa de Servicios de Florencia S.A'),
+	(1406, 'Alcaldia de Leticia'),
+	(1407, 'Aguas de Manizales S.A'),
+	(1408, 'Aguas Mocoa S.A'),
+	(1409, 'Empresas Publicas de Neiva S.A'),
+	(1410, 'Acueducto y Alcantarillado de Popayan S.A');
+/*!40000 ALTER TABLE `empresa_prestadora_ser` ENABLE KEYS */;
 
--- -----------------------------------------------------
--- Table `Cuencas_Hidro_has_Enfermedades`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Cuencas_Hidro_has_Enfermedades` (
-  `Cuencas_Hidro_Nombre_Cuenca` VARCHAR(50) NOT NULL,
-  `Enfermedades_ID_Enfermedades` INT NOT NULL,
-  `Enfermedades_Tipo_Analisis_ID_Tipo_Analisis` INT NOT NULL,
-  PRIMARY KEY (`Cuencas_Hidro_Nombre_Cuenca`, `Enfermedades_ID_Enfermedades`, `Enfermedades_Tipo_Analisis_ID_Tipo_Analisis`),
-  INDEX `fk_Cuencas_Hidro_has_Enfermedades_Enfermedades1_idx` (`Enfermedades_ID_Enfermedades` ASC, `Enfermedades_Tipo_Analisis_ID_Tipo_Analisis` ASC),
-  INDEX `fk_Cuencas_Hidro_has_Enfermedades_Cuencas_Hidro1_idx` (`Cuencas_Hidro_Nombre_Cuenca` ASC),
-  CONSTRAINT `fk_Cuencas_Hidro_has_Enfermedades_Cuencas_Hidro1`
-    FOREIGN KEY (`Cuencas_Hidro_Nombre_Cuenca`)
-    REFERENCES `Cuencas_Hidro` (`Nombre_Cuenca`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Cuencas_Hidro_has_Enfermedades_Enfermedades1`
-    FOREIGN KEY (`Enfermedades_ID_Enfermedades` , `Enfermedades_Tipo_Analisis_ID_Tipo_Analisis`)
-    REFERENCES `Enfermedades` (`ID_Enfermedades` , `Tipo_Analisis_ID_Tipo_Analisis`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- Volcando estructura para tabla proyecto.enfermedades
+CREATE TABLE IF NOT EXISTS `enfermedades` (
+  `ID_Enfermedades` int(11) NOT NULL,
+  `Nombre_Enfermedad` varchar(50) DEFAULT NULL,
+  `Tipo_Analisis_ID_Tipo_Analisis` int(11) NOT NULL,
+  PRIMARY KEY (`ID_Enfermedades`,`Tipo_Analisis_ID_Tipo_Analisis`),
+  KEY `fk_Enfermedades_Tipo_Analisis1_idx` (`Tipo_Analisis_ID_Tipo_Analisis`),
+  CONSTRAINT `fk_Enfermedades_Tipo_Analisis1` FOREIGN KEY (`Tipo_Analisis_ID_Tipo_Analisis`) REFERENCES `tipo_analisis` (`ID_Tipo_Analisis`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Volcando datos para la tabla proyecto.enfermedades: ~12 rows (aproximadamente)
+DELETE FROM `enfermedades`;
+/*!40000 ALTER TABLE `enfermedades` DISABLE KEYS */;
+INSERT INTO `enfermedades` (`ID_Enfermedades`, `Nombre_Enfermedad`, `Tipo_Analisis_ID_Tipo_Analisis`) VALUES
+	(4011, 'Colera', 21),
+	(4012, 'Fiebre Tifoidea', 21),
+	(4013, 'Hepatitis A', 21),
+	(4014, 'Diarrea', 21),
+	(4015, 'Disenteria', 21),
+	(4016, 'Infeccion por gusano parasito', 22),
+	(4017, 'Esquistosomiasis', 22),
+	(4018, 'Dracunculiasis', 22),
+	(4019, 'Paludismo', 23),
+	(4020, 'Fiebre amarilla', 23),
+	(4021, 'Dengue', 23),
+	(4022, 'Oncocercosis', 23);
+/*!40000 ALTER TABLE `enfermedades` ENABLE KEYS */;
+
+-- Volcando estructura para tabla proyecto.informe
+CREATE TABLE IF NOT EXISTS `informe` (
+  `ID_Informe` int(11) NOT NULL,
+  `Nombre_Informe` varchar(50) DEFAULT NULL,
+  `Fecha_Presentacion` date DEFAULT NULL,
+  `Periodicidad` varchar(50) DEFAULT NULL,
+  `Alcalde_Gobernador_IDAlcalde_Gobernador` int(11) NOT NULL,
+  `Alcalde_Gobernador_Cargo_ID_Cargo` int(11) NOT NULL,
+  PRIMARY KEY (`ID_Informe`,`Alcalde_Gobernador_IDAlcalde_Gobernador`,`Alcalde_Gobernador_Cargo_ID_Cargo`),
+  KEY `fk_Informe_Alcalde_Gobernador1_idx` (`Alcalde_Gobernador_IDAlcalde_Gobernador`,`Alcalde_Gobernador_Cargo_ID_Cargo`),
+  CONSTRAINT `fk_Informe_Alcalde_Gobernador1` FOREIGN KEY (`Alcalde_Gobernador_IDAlcalde_Gobernador`, `Alcalde_Gobernador_Cargo_ID_Cargo`) REFERENCES `alcalde_gobernador` (`IDAlcalde_Gobernador`, `Cargo_ID_Cargo`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Volcando datos para la tabla proyecto.informe: ~10 rows (aproximadamente)
+DELETE FROM `informe`;
+/*!40000 ALTER TABLE `informe` DISABLE KEYS */;
+INSERT INTO `informe` (`ID_Informe`, `Nombre_Informe`, `Fecha_Presentacion`, `Periodicidad`, `Alcalde_Gobernador_IDAlcalde_Gobernador`, `Alcalde_Gobernador_Cargo_ID_Cargo`) VALUES
+	(20190101, 'Informe Inspeccion Sanitaria ESP Armenia', '2019-01-01', 'Bimestral', 12345670, 1),
+	(20190102, 'Informe Inspeccion Sanitaria ESP Barranquilla', '2019-01-02', 'Bimestral', 12345671, 1),
+	(20190103, 'Informe Inspeccion Sanitaria ESP Bogota', '2019-01-03', 'Bimestral', 12345672, 1),
+	(20190104, 'Informe Inspeccion Sanitaria ESP Cali', '2019-01-04', 'Trimestral', 12345673, 1),
+	(20190105, 'Informe Inspeccion Sanitaria ESP Florencia', '2019-01-05', 'Trimestral', 12345674, 1),
+	(20190106, 'Informe Inspeccion Sanitaria ESP Leticia', '2019-01-06', 'Trimestral', 12345675, 2),
+	(20190107, 'Informe Inspeccion Sanitaria ESP Manizales', '2019-01-07', 'Semestral', 12345676, 2),
+	(20190108, 'Informe Inspeccion Sanitaria ESP Mocoa', '2019-01-08', 'Semestral', 12345677, 2),
+	(20190109, 'Informe Inspeccion Sanitaria ESP Neiva', '2019-01-09', 'Anual', 12345678, 2),
+	(20190110, 'Informe Inspección Sanitaria ESP Popayan', '2019-01-10', 'Anual', 12345679, 2);
+/*!40000 ALTER TABLE `informe` ENABLE KEYS */;
+
+-- Volcando estructura para tabla proyecto.municipios_distrito
+CREATE TABLE IF NOT EXISTS `municipios_distrito` (
+  `ID_Municipios` int(11) NOT NULL,
+  `Nombre_Mun` varchar(45) DEFAULT NULL,
+  `Clasificacion_ID_Clasificacion` int(11) NOT NULL,
+  `Alcalde_Gobernador_IDAlcalde_Gobernador` int(11) NOT NULL,
+  PRIMARY KEY (`ID_Municipios`,`Clasificacion_ID_Clasificacion`,`Alcalde_Gobernador_IDAlcalde_Gobernador`),
+  KEY `fk_Municipios_Distrito_Clasificacion_idx` (`Clasificacion_ID_Clasificacion`),
+  KEY `fk_Municipios_Distrito_Alcalde_Gobernador1_idx` (`Alcalde_Gobernador_IDAlcalde_Gobernador`),
+  CONSTRAINT `fk_Municipios_Distrito_Alcalde_Gobernador1` FOREIGN KEY (`Alcalde_Gobernador_IDAlcalde_Gobernador`) REFERENCES `alcalde_gobernador` (`IDAlcalde_Gobernador`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Municipios_Distrito_Clasificacion` FOREIGN KEY (`Clasificacion_ID_Clasificacion`) REFERENCES `clasificacion` (`ID_Clasificacion`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Volcando datos para la tabla proyecto.municipios_distrito: ~10 rows (aproximadamente)
+DELETE FROM `municipios_distrito`;
+/*!40000 ALTER TABLE `municipios_distrito` DISABLE KEYS */;
+INSERT INTO `municipios_distrito` (`ID_Municipios`, `Nombre_Mun`, `Clasificacion_ID_Clasificacion`, `Alcalde_Gobernador_IDAlcalde_Gobernador`) VALUES
+	(1233, 'Armenia', 1, 12345670),
+	(1234, 'Barranquilla', 2, 12345671),
+	(1235, 'Bogota', 3, 12345672),
+	(1236, 'Cali', 4, 12345673),
+	(1237, 'Florencia', 5, 12345674),
+	(1238, 'Leticia', 6, 12345675),
+	(1239, 'Manizales', 7, 12345676),
+	(1240, 'Mocoa', 1, 12345677),
+	(1241, 'Neiva', 2, 12345678),
+	(1242, 'Popayan', 3, 12345679);
+/*!40000 ALTER TABLE `municipios_distrito` ENABLE KEYS */;
+
+-- Volcando estructura para tabla proyecto.municipios_distrito_has_cuencas_hidro
+CREATE TABLE IF NOT EXISTS `municipios_distrito_has_cuencas_hidro` (
+  `Municipios_Distrito_ID_Municipios` int(11) NOT NULL,
+  `Municipios_Distrito_Clasificacion_ID_Clasificacion` int(11) NOT NULL,
+  `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador` int(11) NOT NULL,
+  `Cuencas_Hidro_Nombre_Cuenca` varchar(50) NOT NULL,
+  PRIMARY KEY (`Municipios_Distrito_ID_Municipios`,`Municipios_Distrito_Clasificacion_ID_Clasificacion`,`Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador`,`Cuencas_Hidro_Nombre_Cuenca`),
+  KEY `fk_Municipios_Distrito_has_Cuencas_Hidro_Cuencas_Hidro1_idx` (`Cuencas_Hidro_Nombre_Cuenca`),
+  KEY `fk_Municipios_Distrito_has_Cuencas_Hidro_Municipios_Distrit_idx` (`Municipios_Distrito_ID_Municipios`,`Municipios_Distrito_Clasificacion_ID_Clasificacion`,`Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador`),
+  CONSTRAINT `fk_Municipios_Distrito_has_Cuencas_Hidro_Cuencas_Hidro1` FOREIGN KEY (`Cuencas_Hidro_Nombre_Cuenca`) REFERENCES `cuencas_hidro` (`Nombre_Cuenca`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Municipios_Distrito_has_Cuencas_Hidro_Municipios_Distrito1` FOREIGN KEY (`Municipios_Distrito_ID_Municipios`, `Municipios_Distrito_Clasificacion_ID_Clasificacion`, `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador`) REFERENCES `municipios_distrito` (`ID_Municipios`, `Clasificacion_ID_Clasificacion`, `Alcalde_Gobernador_IDAlcalde_Gobernador`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Volcando datos para la tabla proyecto.municipios_distrito_has_cuencas_hidro: ~10 rows (aproximadamente)
+DELETE FROM `municipios_distrito_has_cuencas_hidro`;
+/*!40000 ALTER TABLE `municipios_distrito_has_cuencas_hidro` DISABLE KEYS */;
+INSERT INTO `municipios_distrito_has_cuencas_hidro` (`Municipios_Distrito_ID_Municipios`, `Municipios_Distrito_Clasificacion_ID_Clasificacion`, `Municipios_Distrito_Alcalde_Gobernador_IDAlcalde_Gobernador`, `Cuencas_Hidro_Nombre_Cuenca`) VALUES
+	(1233, 1, 12345670, 'Rio Quindio'),
+	(1234, 2, 12345671, 'Rio Magdalena'),
+	(1235, 3, 12345672, 'Rio Salitre'),
+	(1236, 4, 12345673, 'Rio Pance'),
+	(1237, 5, 12345674, 'Quebrada El Dedo'),
+	(1238, 6, 12345675, 'Rio Amazonas'),
+	(1239, 7, 12345676, 'Rio Chinchina'),
+	(1240, 1, 12345677, 'Rio Mulato'),
+	(1241, 2, 12345678, 'Rio Las Ceibas'),
+	(1242, 3, 12345679, 'Rio Molino');
+/*!40000 ALTER TABLE `municipios_distrito_has_cuencas_hidro` ENABLE KEYS */;
+
+-- Volcando estructura para tabla proyecto.planta_suministro
+CREATE TABLE IF NOT EXISTS `planta_suministro` (
+  `ID_Planta_suministro` int(11) NOT NULL,
+  `Nombre_Planta_suministro` varchar(50) DEFAULT NULL,
+  `Empresa_prestadora_ser_ID_Empresa_prestadora_ser` int(11) NOT NULL,
+  PRIMARY KEY (`ID_Planta_suministro`,`Empresa_prestadora_ser_ID_Empresa_prestadora_ser`),
+  KEY `fk_Planta_suministro_Empresa_prestadora_ser1_idx` (`Empresa_prestadora_ser_ID_Empresa_prestadora_ser`),
+  CONSTRAINT `fk_Planta_suministro_Empresa_prestadora_ser1` FOREIGN KEY (`Empresa_prestadora_ser_ID_Empresa_prestadora_ser`) REFERENCES `empresa_prestadora_ser` (`ID_Empresa_prestadora_ser`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Volcando datos para la tabla proyecto.planta_suministro: ~10 rows (aproximadamente)
+DELETE FROM `planta_suministro`;
+/*!40000 ALTER TABLE `planta_suministro` DISABLE KEYS */;
+INSERT INTO `planta_suministro` (`ID_Planta_suministro`, `Nombre_Planta_suministro`, `Empresa_prestadora_ser_ID_Empresa_prestadora_ser`) VALUES
+	(98766, 'La Marina', 1401),
+	(98767, 'El Recreo', 1402),
+	(98768, 'El Salitre', 1403),
+	(98769, 'Puerto Mallarino', 1404),
+	(98770, 'Caldas', 1405),
+	(98771, 'El Porvenir', 1406),
+	(98772, 'Los Cambulos', 1407),
+	(98773, 'El Libano', 1408),
+	(98774, 'Las Ceibas', 1409),
+	(98775, 'Tulcan', 1410);
+/*!40000 ALTER TABLE `planta_suministro` ENABLE KEYS */;
+
+-- Volcando estructura para tabla proyecto.tipo_analisis
+CREATE TABLE IF NOT EXISTS `tipo_analisis` (
+  `ID_Tipo_Analisis` int(11) NOT NULL,
+  `Nombre_Tipo_Analisis` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_Tipo_Analisis`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Volcando datos para la tabla proyecto.tipo_analisis: ~3 rows (aproximadamente)
+DELETE FROM `tipo_analisis`;
+/*!40000 ALTER TABLE `tipo_analisis` DISABLE KEYS */;
+INSERT INTO `tipo_analisis` (`ID_Tipo_Analisis`, `Nombre_Tipo_Analisis`) VALUES
+	(21, 'Fisico'),
+	(22, 'Quimico'),
+	(23, 'Microbiologico');
+/*!40000 ALTER TABLE `tipo_analisis` ENABLE KEYS */;
+
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

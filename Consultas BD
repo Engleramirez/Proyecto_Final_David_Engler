@@ -7,11 +7,11 @@ determinadas enfermedades.
 
 Visualizar las enfermedades generados, segun el tipo de analisis realizado.
 
-Generar un listado de municipios que correspondan a Categoria Especial, y que planta de tratamiento de aguas posee.
+Generar un listado de municipios que correspondan a Categoria Especial y la respectiva bocatoma que posee dicho municipio.
 
-Visualizar el nombre de la cuenca, nombre bocatoma y ubicación de la cuanca hidrografica de municipios que fueron revistados con informes bimestrales.
+Visualizar el nombre de la cuenca, nombre del municipio y las caracteristicas analizadas en el agua.
 
-Visualizar cuantos informes bimestrales fueron realizados en el año 2019
+Visualizar el nombre del informe presentado, su periodicidad y fecha de realización de los informes realizados en el año 2019.
 
 Visualizar los informes generados en los meses de enero que tuvieron una periodicidad anual.
 
